@@ -1,3 +1,4 @@
+//	Joseph Castaner
 //
 //  test.cpp
 //
@@ -173,3 +174,46 @@ TEST_CASE( "dijkstra() cityGraph2 Test", "[dijksta]" ) {
 // reuse cityGraph or cityGraph2. Cite any sources.
 // Make sure that your assertions are fairly comprehensive.
 // Look at the prior two tests as examples.
+
+TEST_CASE("dijkstra() Joe's Weight Test", "[dijksta]") {
+	WeightedGraph<string, int> cityGraph2 = WeightedGraph<string, int>();
+	cityGraph2.addEdge("Seattle", "Chicago", 1737);
+	cityGraph2.addEdge("Seattle", "San Francisco", 678);
+	cityGraph2.addEdge("San Francisco", "Riverside", 386);
+	cityGraph2.addEdge("San Francisco", "Los Angeles", 348);
+	cityGraph2.addEdge("Los Angeles", "Riverside", 50);
+	cityGraph2.addEdge("Los Angeles", "Phoenix", 357);
+	cityGraph2.addEdge("Riverside", "Phoenix", 307);
+	cityGraph2.addEdge("Riverside", "Chicago", 1704);
+	cityGraph2.addEdge("Phoenix", "Dallas", 887);
+
+	cout << "------cityGraph2------" << endl;
+	cityGraph2.debugPrint();
+	auto resultPair = cityGraph2.dijkstra("Miami");
+	auto parentResults = resultPair.first;
+	auto weightResults = resultPair.second;
+
+	// are the distances from Miami correct?
+	CHECK(weightResults["Seattle"] == 2929);
+	CHECK(weightResults["Chicago"] == 1192);
+	CHECK(weightResults["Atlanta"] == 604);
+	CHECK(weightResults["New York"] == 1127);
+	auto path = cityGraph2.pathMapToPath(parentResults, "San Francisco");
+	cout << "------cityGraph2 path------" << endl;
+	printPath(path);
+
+	// Shortest path should be
+	// Miami -> Houston -> Phoenix -> Riverside -> San Francisco
+	CHECK(path.size() == 5);
+	CHECK(path.front() == "Miami");
+	CHECK(path.back() == "San Francisco");
+	auto it = path.begin();
+	auto last = path.front();
+
+	for (unsigned long i = 1; i < path.size(); i++) {
+		it++;
+		auto current = *it;
+		CHECK(cityGraph2.edgeExists(last, current));
+		last = current;
+	}
+}

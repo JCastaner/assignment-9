@@ -1,3 +1,4 @@
+//	Joseph Castaner
 //
 //  WeightedGraph.h
 //  
@@ -140,6 +141,22 @@ namespace csi281 {
             // from class, from your book, and you are free to
             // use other pseudocode as long as you cite it. Please
             // do not look at other C++ solutions.
+
+			int currentpos = 0;
+
+			while (!parents.empty())
+			{
+				V currentVert = frontier.pop(parents.second);
+
+				for ()
+				{
+					if ()
+					{
+						weights
+						frontier.push();
+					}
+				}
+			}
             
             return make_pair(parents, weights);
         }
