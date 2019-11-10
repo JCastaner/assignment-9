@@ -142,22 +142,33 @@ namespace csi281 {
             // use other pseudocode as long as you cite it. Please
             // do not look at other C++ solutions.
 
-			int currentpos = 0;
-
-			while (!parents.empty())
+			while (!frontier.empty())
 			{
-				V currentVert = frontier.pop(parents.second);
+				V curVert = frontier.top().second;
+				W curEdgeWeight = frontier.top().first;
+				frontier.pop(); //pops after you grab the current node
 
-				for ()
+				for (auto &i : neighborsWithWeights(curVert)) //checks neighbors of the current vertex
 				{
-					if ()
+					bool good;
+					
+					if (weights.find(i.first) == weights.end() || (i.second + curEdgeWeight) < weights[i.first]) //MUST CHECK FOR END ON LEFT FIRST OR WILL FAIL TESTS
 					{
-						weights
-						frontier.push();
+						good = true;
+					}
+					else
+					{
+						good = false;
+					}
+
+					if (good == true) //if good, add them
+					{
+						weights[i.first] = i.second + curEdgeWeight;
+						parents[i.first] = curVert;
+						frontier.push(make_pair(i.second + curEdgeWeight, i.first));
 					}
 				}
-			}
-            
+			}            
             return make_pair(parents, weights);
         }
         

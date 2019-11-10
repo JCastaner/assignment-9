@@ -175,45 +175,45 @@ TEST_CASE( "dijkstra() cityGraph2 Test", "[dijksta]" ) {
 // Make sure that your assertions are fairly comprehensive.
 // Look at the prior two tests as examples.
 
-TEST_CASE("dijkstra() Joe's Weight Test", "[dijksta]") {
-	WeightedGraph<string, int> cityGraph2 = WeightedGraph<string, int>();
-	cityGraph2.addEdge("Seattle", "Chicago", 1737);
-	cityGraph2.addEdge("Seattle", "San Francisco", 678);
-	cityGraph2.addEdge("San Francisco", "Riverside", 386);
-	cityGraph2.addEdge("San Francisco", "Los Angeles", 348);
-	cityGraph2.addEdge("Los Angeles", "Riverside", 50);
-	cityGraph2.addEdge("Los Angeles", "Phoenix", 357);
-	cityGraph2.addEdge("Riverside", "Phoenix", 307);
-	cityGraph2.addEdge("Riverside", "Chicago", 1704);
-	cityGraph2.addEdge("Phoenix", "Dallas", 887);
+TEST_CASE("dijkstra() Joseph's Weight Test", "[dijksta]") {
+	WeightedGraph<string, int> UniversityMallGraph = WeightedGraph<string, int>();
+	UniversityMallGraph.addEdge("Nordstrom", "Lids", 258);
+	UniversityMallGraph.addEdge("Lids", "Starbucks", 438);
+	UniversityMallGraph.addEdge("Lids", "Vermont Gaming Academy", 245);
+	UniversityMallGraph.addEdge("Starbucks", "Gamestop", 385);
+	UniversityMallGraph.addEdge("Gamestop", "McDonalds", 56);
+	UniversityMallGraph.addEdge("Gamestop", "Target", 243);
+	UniversityMallGraph.addEdge("Gamestop", "Library", 998);
+	UniversityMallGraph.addEdge("Library", "Kohls", 450);
+	UniversityMallGraph.addEdge("Kohls", "Jamba Juice", 787);
 
-	cout << "------cityGraph2------" << endl;
-	cityGraph2.debugPrint();
-	auto resultPair = cityGraph2.dijkstra("Miami");
+	cout << "------UniversityMallGraph------" << endl;
+	UniversityMallGraph.debugPrint();
+	auto resultPair = UniversityMallGraph.dijkstra("Lids");
 	auto parentResults = resultPair.first;
 	auto weightResults = resultPair.second;
 
-	// are the distances from Miami correct?
-	CHECK(weightResults["Seattle"] == 2929);
-	CHECK(weightResults["Chicago"] == 1192);
-	CHECK(weightResults["Atlanta"] == 604);
-	CHECK(weightResults["New York"] == 1127);
-	auto path = cityGraph2.pathMapToPath(parentResults, "San Francisco");
-	cout << "------cityGraph2 path------" << endl;
+	// are the distances from Lids correct?
+	CHECK(weightResults["Starbucks"] == 438);
+	CHECK(weightResults["Gamestop"] == 823);
+	CHECK(weightResults["McDonalds"] == 879);
+	CHECK(weightResults["Nordstrom"] == 258);
+	auto path = UniversityMallGraph.pathMapToPath(parentResults, "Kohls");
+	cout << "------UniversityMallGraph path------" << endl;
 	printPath(path);
 
 	// Shortest path should be
-	// Miami -> Houston -> Phoenix -> Riverside -> San Francisco
+	// Lids -> Starbucks -> Gamestop -> Library -> Kohls
 	CHECK(path.size() == 5);
-	CHECK(path.front() == "Miami");
-	CHECK(path.back() == "San Francisco");
+	CHECK(path.front() == "Lids");
+	CHECK(path.back() == "Kohls");
 	auto it = path.begin();
 	auto last = path.front();
 
 	for (unsigned long i = 1; i < path.size(); i++) {
 		it++;
 		auto current = *it;
-		CHECK(cityGraph2.edgeExists(last, current));
+		CHECK(UniversityMallGraph.edgeExists(last, current));
 		last = current;
 	}
 }
